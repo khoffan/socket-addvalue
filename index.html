@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.io Example</title>
+</head>
+<body>
+  <ul id="output"></ul>
+  <form id="form">
+    <input id="input" type="text" name="">
+    <button id="button">Submit</button>  
+    <button id="button2">delate</button>  
+    <div>
+      <p id="out" type="text"></p>
+    </div>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    
+    var from = document.getElementById('form');
+    var button = document.getElementById('button');
+    var button2 = document.getElementById('button2');
+    var input = document.getElementById('input');
+    var out = document.getElementById('out');
+
+    button.addEventListener('click', (e) =>{
+        e.preventDefault()
+
+        if(input.value){
+          socket.emit("input", input.value);
+          input.value = " "
+        }
+    });
+    button2.addEventListener('click', (e) =>{
+        e.preventDefault()
+
+        if(input.value){
+          socket.emit("delate", input.value);
+          input.value = " "
+        }
+    });
+    socket.on('output', outputValues => {
+      console.log(outputValues);
+      out.innerHTML = outputValues;
+    });
+    socket.on('delate', daleteval => {
+      console.log(daleteval);
+      out.innerHTML = daleteval;
+      alert("value to del" + daleteval )
+
+    })
+  </script>
+</body>
+</html>
